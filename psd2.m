@@ -1,10 +1,9 @@
 function [PSD, SelectFilterFreq] = MI_PSD(x,FreqRange,fs)
-%% ¼ÆËã¹¦ÂÊÆ×ÃÜ¶È
-% ÊäÈë£ºx£ºeegÊı¾İ£¬¸ñÊ½ time*channel
-%           FreqRange£º¸ĞĞËÈ¤µÄÆµÂÊ¶Î·¶Î§£¬¸ñÊ½  for example£¬[5 30]
-%           fs: ²ÉÑùÂÊ
-% Êä³ö£ºPSD: ¹¦ÂÊÆ×ÃÜ¶È£¬¸ñÊ½ psd*channel
-%           SelectFilterFreq£ºÓëpsdÏà¶ÔÓ¦µÄÆµÂÊµã£¬¸ñÊ½ freq*channel
+% inputï¼šxï¼šeegï¼Œ time*channel
+%           FreqRangeï¼šThe frequency range of interest  for exampleï¼Œ[5 30]
+%           fs: frequency
+% outputï¼šPSD:  psd*channel
+%           SelectFilterFreqï¼š freq*channel
 %
 %        written by zhang rui in 2012.09.15
 %
@@ -13,7 +12,6 @@ PSD_windowlength = fs;
 
 Nfft=fs*2;
 ChanNum=size(x,2);
-%% Ñ­»·µ¼Áª
 for i=1:ChanNum
     [PSD(:,i) FilterFeq]=pwelch(x(:,i),PSD_windowlength,[],Nfft,fs);
 end
@@ -26,4 +24,5 @@ FeqUp=find(FilterFeq<=FreqRange(2),1,'last');
 FeqSeqRange=FeqLow:FeqUp;
 PSD=PSD(FeqSeqRange,:);
 SelectFilterFreq=FilterFeq(FeqSeqRange,:);
+
 
